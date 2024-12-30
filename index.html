@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Data</title>
+</head>
+<body>
+    <h1>Submit Your Data</h1>
+    <form id="dataForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="message">Message:</label><br>
+        <textarea id="message" name="message" required></textarea><br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.getElementById('dataForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            const formData = new FormData(event.target);
+            const data = new URLSearchParams(formData).toString();
+
+            fetch('https://script.google.com/macros/s/AKfycbzrNh1tKq-teU4C_INVg5CE9W0mn420GN5VvXQcBPZmKH7OBGuEx18utges793ygXw/execL', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: data,
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Data saved successfully!');
+                console.log(data);
+            })
+            .catch(error => {
+                alert('Error saving data!');
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
